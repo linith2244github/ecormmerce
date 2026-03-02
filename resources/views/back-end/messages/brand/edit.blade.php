@@ -9,22 +9,21 @@
           </button>
         </div>
         <div class="modal-body">
-           <form method="POST" id="formUpdateBrand" enctype="multipart/form-data">
+           <form method="POST" class="formUpdateBrand">
               @csrf
                 <div class="form-group">
                   <input type="hidden" name="brand_id" id="brand_id">
                    <label for="bname">Brand</label>
                    <input type="text" name="name" class="name name_edit form-control" id="bname">
                    <p></p>
-                  {{-- <p class="error-text"></p> --}}
                 </div>
                 <div class="form-group">
                   <label for="bstatus">Category</label>
-                  <select name="category" class="category form-control" id="bcategory">
-                    <option value="">Phone</option>
-                    <option value="">Computer</option>
+                  <select name="category" class="category category_edit form-control" id="bcategory">
+                    @foreach($categories as $category)
+                      <option value="{{$category->id}}">{{$category->name}}</option>
+                    @endforeach
                   </select>
-                  {{-- <p class="error-text"></p> --}}
                 </div>
                 <div class="form-group">
                   <label for="bstatus">Status</label>
@@ -32,14 +31,13 @@
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
                   </select>
-                  {{-- <p class="error-text"></p> --}}
                 </div>
 
            </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" onclick="UpdateBrand('#formUpdateBrand')" class="btn btn-primary">Update</button>
+          <button type="button" onclick="BrandUpdate('.formUpdateBrand')" class="btn btn-primary">Update</button>
         </div>
       </div>
     </div>
