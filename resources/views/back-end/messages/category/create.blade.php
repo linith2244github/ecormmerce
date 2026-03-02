@@ -1,0 +1,48 @@
+<div class="modal fade" id="modalCreateCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width:40%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Creating Category</h1>
+          {{-- <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button> --}}
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+           <form method="POST" class="formCreateCategory" enctype="multipart/form-data">
+              @csrf
+                <div class="form-group">
+                   <label for="cname">Category</label>
+                   <input type="text" name="name" class="name form-control" id="cname">
+                   <p></p>
+                  {{-- <p class="error-text"></p> --}}
+                </div>
+
+                <div class="form-group">
+                  <label for="cimage">Image</label>
+                  <input type="file" class="image form-control rounded-0" id="cimage" name="image">
+                  <button type="button" onclick="UploadImage('.formCreateCategory')" class="btn-sm btn btn-success rounded-0 btn_upload">upload</button>
+                  <p></p>
+                </div>
+                <div class="show-image-category form-group">
+
+                </div>
+
+                <div class="form-group">
+                  <label for="cstatus">Status</label>
+                  <select name="status" class="status form-control" id="cstatus">
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                  </select>
+                  {{-- <p class="error-text"></p> --}}
+                </div>
+
+           </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" onclick="StoreCategory('.formCreateCategory')" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+</div>
