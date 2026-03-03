@@ -40,20 +40,22 @@
                 <h4 class="card-title">Categories</h4>
                 <p data-toggle="modal" data-target="#modalCreateCategory" id="addCategoryBtn" class="card-description btn btn-primary ">new category</p>
             </div>
-            <table class="table table-striped">
-              <thead>
-                <tr> 
-                  <th>Category ID</th>
-                  <th>Category</th>
-                  <th>Image</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody class="categories_list">
-                
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr> 
+                    <th>Category ID</th>
+                    <th>Category</th>
+                    <th>Image</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody class="categories_list">
+                  
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

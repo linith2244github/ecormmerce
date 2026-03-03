@@ -42,17 +42,12 @@
           </div>
         </li>
       </ul>
-      <form class="ml-auto search-form d-none d-md-block" action="#">
+      <form class="ml-auto search-form" action="#">
         <div class="form-group">
           {{-- <input type="search" class="form-control" placeholder="Search Here"> --}}
-          <div class="input-group">
-            <input type="search" class="form-control" placeholder="Search Here" aria-label="Search">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button">
-                <i class="bi bi-search"></i>
-              </button>
-            </div>
-          </div>
+          <p class="text-muted pt-3" onclick="SetFocus()" id="searchBrandBtn" style="cursor: pointer;" data-toggle="modal" data-target="#modalSearch">
+            <i class="bi bi-search" style="font-size: 24px;"></i>
+          </p>
         </div>
       </form>
       <ul class="navbar-nav ml-auto">

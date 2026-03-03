@@ -62,6 +62,27 @@
     </div>
     <!-- container-scroller -->
 
+<!-- Modal -->
+<div class="modal fade" id="modalSearch" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body p-5">
+        <div class="from-group">
+          <div class="input-group">
+            <input type="text" autofocus id="searchInput" class="form-control" placeholder="Search Here" aria-label="Search">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" id="searchBtn">
+                <i class="bi bi-search">search</i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    {{-- End Modal --}}
+
     <!-- plugins:js -->
     <script src="{{ asset('back-end/assets/vendors/js/vendor.bundle.base.js') }}"></script>
     <script src="{{ asset('back-end/assets/vendors/js/vendor.bundle.addons.js') }}"></script>

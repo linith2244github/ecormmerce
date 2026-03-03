@@ -36,20 +36,22 @@
                 <h4 class="card-title">Users</h4>
                 <p data-toggle="modal" data-target="#modalCreateUser" id="addUserBtn" class="card-description btn btn-primary ">new users</p>
             </div>
-            <table class="table table-striped">
-              <thead>
-                <tr> 
-                  <th>User ID</th>
-                  <th>Username</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody class="users_list">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr> 
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody class="users_list">
 
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

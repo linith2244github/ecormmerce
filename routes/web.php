@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\BrandController;
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\ColorController;
 use App\Http\Controllers\Dashboard\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +30,11 @@ Route::post('/brand/store', [BrandController::class, 'store'])->name('brand.stor
 Route::post('/brand/edit', [BrandController::class, 'edit'])->name('brand.edit');
 Route::post('/brand/update', [BrandController::class, 'update'])->name('brand.update');
 Route::post('/brand/destroy', [BrandController::class, 'destroy'])->name('brand.destroy');
+
+//Color Routers
+Route::get('/color', [ColorController::class, 'index'])->name('color.index');
+Route::post('/color/list', [ColorController::class, 'list'])->name('color.list');
+Route::post('/color/store', [ColorController::class, 'store'])->name('color.store');
+Route::post('/color/edit', [ColorController::class, 'edit'])->name('color.edit');
+Route::post('/color/update', [ColorController::class, 'update'])->name('color.update');
+Route::post('/color/destroy', [ColorController::class, 'destroy'])->name('color.destroy');

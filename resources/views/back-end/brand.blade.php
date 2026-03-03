@@ -37,22 +37,26 @@
                 <h4 class="card-title">Brands</h4>
                 <p data-toggle="modal" data-target="#modalCreateBrand" id="addBrandBtn" class="card-description btn btn-primary ">new brand</p>
             </div>
-            <table class="table table-striped">
-              <thead>
-                <tr> 
-                  <th>Brand ID</th>
-                  <th>Brand Name</th>
-                  <th>Category</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody class="brands_list">
-                
-              </tbody>
-            </table>
-            <div class="show-page mt-3">
-
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr> 
+                    <th>Brand ID</th>
+                    <th>Brand Name</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody class="brands_list">
+                  
+                </tbody>
+              </table>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="show-page mt-3">
+              </div>
+              <button class="btn btn-outline-info btn-sm rounded-0" onclick="BrandRefresh()">refresh</button>
             </div>
           </div>
         </div>
@@ -61,11 +65,14 @@
 
 @section("scripts")
     <script>
-      const BrandList = (page=1) => {
+      const BrandList = (page=1, search='') => {
         $.ajax({
           type: "POST",
           url: "{{ route('brand.list') }}",
-          data: {"page" : page},
+          data: {
+            "page" : page,
+            "search" : search
+          },
           dataType: "json",
           success: function (response) {
             if(response.status == 200){
@@ -108,7 +115,7 @@
                         </li>`;
                     }
                     page += `
-                    <li class="page-item ${(currentPage == totalPage) ? 'disabled' : ''}" ${currentPage == totalPage ? '' : `onclick="NetPage(${totalPage})"`}>
+                    <li class="page-item ${(currentPage == totalPage) ? 'disabled' : ''}" ${currentPage == totalPage ? '' : `onclick="NetPage(${currentPage})"`}>
                       <a class="page-link" href="javascript:void(0)" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                       </a>
@@ -125,6 +132,25 @@
       }
 
       BrandList();
+      const BrandRefresh = () => {
+        BrandList();
+        // ✅ Clear search input
+        $("#searchInput").val('');
+      }
+      // search event
+      $(document).on("click", "#searchBtn", function(){
+        let search = $("#searchInput").val();
+        $("#modalSearch").modal('hide');
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
+        BrandList(1, search);
+        $("#searchInput").val('');
+      });
+      const SetFocus = () => {
+        $('#modalSearch').on('shown.bs.modal', function () {
+            $('#searchInput').trigger('focus');
+        });
+      }
       const BrandPage = (page) => {
         BrandList(page);
       }
@@ -216,8 +242,12 @@
       }
   
 
-        $(document).on('click', '#addBrandBtn', function(){
+      $(document).on('click', '#addBrandBtn', function(){
             $('#modalCreateBrand').modal('show');
+        });
+
+      $(document).on('click', '#searchBrandBtn', function(){
+            $('#modalSearch').modal('show');
         });
     </script>
 
