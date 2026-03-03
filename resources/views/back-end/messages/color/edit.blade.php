@@ -12,7 +12,7 @@
            <form method="POST" class="formUpdateColor">
               @csrf
                 <div class="form-group">
-                  <input type="hidden" name="color_id" class="color_id form-control" id="color_id">
+                  <input type="text" name="color_id" class="id id_edit color_id form-control" id="color_id">
                    <label for="cname">Color Name</label>
                    <input type="text" name="name" class="name name_edit form-control" id="cname">
                    <p></p>
@@ -33,7 +33,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Update</button>
+          <button type="button" class="btn btn-primary" onclick="ColorUpdate('.formUpdateColor')">Update</button>
         </div>
       </div>
     </div>

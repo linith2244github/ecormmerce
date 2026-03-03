@@ -80,7 +80,7 @@ class BrandController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required:unique:brands,name,' . $request->brand_id
+            'name' => 'required|unique:brands,name,' . $request->brand_id
         ]);
         if($validator->passes()){
             $brand = Brand::find($request->brand_id);

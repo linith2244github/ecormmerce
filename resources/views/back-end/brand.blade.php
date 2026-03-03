@@ -190,6 +190,7 @@
       }
 
       const BrandEdit = (id, name, category_id, status) => {
+        // console.log($(".name_edit").val(name));
         $("#brand_id").val(id);
         $(".name_edit").val(name);
         $(".category_edit").val(category_id).trigger('change');

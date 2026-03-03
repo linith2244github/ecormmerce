@@ -79,8 +79,9 @@
               let colors = response.colors;
               let tr = '';
               $.each(colors, function (key, value) { 
+                console.log(value.id);
                 tr += `<tr key=${key}>
-                  <td>B00${key + 1}</td>
+                  <td>B00${value.id}</td>
                   <td>${value.name}</td>
                   <td>
                      <div style="background-color: ${value.color_code}; height: 20px; width: 20px; border-radius: 50%; border: 1px solid #000;"></div>
@@ -111,7 +112,7 @@
                     </li>`;
                     for(let i = 1; i <= totalPage; i++){
                       page += `
-                        <li onclick="BrandPage(${i})" class="page-item ${(i == currentPage) ? 'active' : ''}">
+                        <li onclick="ColorPage(${i})" class="page-item ${(i == currentPage) ? 'active' : ''}">
                           <a class="page-link" href="javascript:void(0)">${i}</a>
                         </li>`;
                     }
@@ -124,7 +125,9 @@
                   </ul>
                 </nav>
               `;
-              $(".show-page").html(page);
+              if(totalPage > 1){
+                  $(".show-page").html(page);
+              }
             }else{
               $(".colors_list").html('<tr><td colspan="5" class="text-center">No brands found</td></tr>');
             } 
@@ -133,34 +136,64 @@
       }
 
       ColorList();
-
-        const ColorStore = (form) => {
-        let payloads = new FormData($(form)[0]);
-        $.ajax({
-          type: "POST",
-          url: "{{ route('color.store') }}",
-          data: payloads,
-          dataType: "json",
-          contentType: false,
-          processData: false,
-          success: function (response) {
-            if(response.status == 200){
-              $("#modalCreateColor").modal('hide');
-              $('.modal-backdrop').remove();
-              $('body').removeClass('modal-open');
-              $(form).trigger("reset");
-              ColorList();
-              $(".name").removeClass('is-invalid').siblings('p').removeClass('text-danger').text('');
-              Message(response.message);
-            }else{
-              let error = response.errors;
-              if(error.name){
-                $(".name").addClass('is-invalid').siblings('p').addClass('text-danger').text(error.name);
-              }
-            }
-          }
+      ColorList();
+      const ColorRefresh = () => {
+        ColorList();
+        // ✅ Clear search input
+        $("#searchInput").val('');
+      }
+      // search event
+      $(document).on("click", "#searchBtn", function(){
+        let search = $("#searchInput").val();
+        $("#modalSearch").modal('hide');
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
+        ColorList(1, search);
+        $("#searchInput").val('');
+      });
+      const SetFocus = () => {
+        $('#modalSearch').on('shown.bs.modal', function () {
+            $('#searchInput').trigger('focus');
         });
       }
+
+      const ColorPage = (page) => {
+        ColorList(page);
+      }
+      const NetPage = (page) => {
+        ColorList(page + 1);
+      }
+      const PreviousPage = (page) => {
+        ColorList(page - 1);
+      }
+
+    const ColorStore = (form) => {
+    let payloads = new FormData($(form)[0]);
+    $.ajax({
+        type: "POST",
+        url: "{{ route('color.store') }}",
+        data: payloads,
+        dataType: "json",
+        contentType: false,
+        processData: false,
+        success: function (response) {
+        if(response.status == 200){
+            $("#modalCreateColor").modal('hide');
+            $('.modal-backdrop').remove();
+            $('body').removeClass('modal-open');
+            $(form).trigger("reset");
+            ColorList();
+            $(".name").removeClass('is-invalid').siblings('p').removeClass('text-danger').text('');
+            Message(response.message);
+        }else{
+            let error = response.errors;
+            if(error.name){
+            $(".name").addClass('is-invalid').siblings('p').addClass('text-danger').text(error.name);
+            }
+        }
+        }
+    });
+    }
 
       const ColorDelete = (id) => {
         if(confirm('Are you sure you want to delete this color?')){
@@ -184,10 +217,43 @@
       }
 
       const ColorEdit = (id, name, color_code, status) => {
-        $(".id_edit").val(id);
+        $("#color_id").val(id);
         $(".name_edit").val(name);
-        $(".color_edit").val(color_code).trigger('change');
+        $(".color_edit").val(color_code);
         $(".status_edit").val(status).trigger('change');
+        // let option `
+        //     <option value="1" ${(status == 1) ? 'selected' : ''}>Active</option>
+        //     <option value="0" ${(status == 0) ? 'selected' : ''}>Inactive</option>
+        // `;
+        // $(".status_edit").html(option);
+      }
+
+      const ColorUpdate = (form) => {
+        let payloads = new FormData($(form)[0]);
+        $.ajax({
+          type: "POST",
+          url: "{{ route('color.update') }}",
+          data: payloads,
+          dataType: "json",
+          contentType: false,
+          processData: false,
+          success: function (response) {
+            if(response.status == 200){
+              $("#modalUpdateColor").modal('hide');
+              $('.modal-backdrop').remove();
+              $('body').removeClass('modal-open');
+              $(form).trigger("reset");
+              $(".name_edit").removeClass('is-invalid').siblings('p').removeClass('text-danger').text('');
+              ColorList();
+              Message(response.message);
+            }else{
+              let error = response.errors;
+              if(error.name){ 
+                $(".name_edit").addClass('is-invalid').siblings('p').addClass('text-danger').text(error.name);
+              }
+            }
+          }
+        });   
       }
       
     </script>

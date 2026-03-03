@@ -62,7 +62,7 @@ class ColorController extends Controller
         if($validator->passes()){
             $color = new Color();
             $color->name = $request->name;
-            $color->color_code = $request->color;
+            $color->color_code = $request->color_code;
             $color->status = $request->status;
             $color->save();
             return response()->json([
@@ -81,9 +81,34 @@ class ColorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:colors,name,' . $request->color_id
+        ]);
+        if($validator->passes()){
+            $color = Color::find($request->color_id);
+            if($color == null){
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Color not found with id ' . $request->color_id
+                ]);
+            }
+            $color->name = $request->name;
+            $color->color_code = $request->color_code;
+            $color->status = $request->status;
+            $color->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Color updated successfully'
+            ]);
+        }else{
+            return response()->json([
+                'status' => 422,
+                'message' => 'Failed to update color',
+                'errors' => $validator->errors()
+            ]);
+        }
     }
 
     /**
