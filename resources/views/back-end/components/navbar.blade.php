@@ -136,14 +136,14 @@
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
             <div class="dropdown-header text-center">
               <img class="img-md rounded-circle" src="{{ asset('back-end/assets/images/faces/face8.jpg') }}" alt="Profile image">
-              <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-              <p class="font-weight-light text-muted mb-0">allenmoreno@gmail.com</p>
+              <p class="mb-1 mt-3 font-weight-semibold text-uppercase">{{ (Auth::check()) ? Auth::user()->name : "Linith" }}</p>
+              <p class="font-weight-light text-muted mb-0">{{ (Auth::check()) ? Auth::user()->email : "linith@gmail" }}</p>
             </div>
             <a class="dropdown-item">My Profile <span class="badge badge-pill badge-danger">1</span><i class="dropdown-item-icon ti-dashboard"></i></a>
             <a class="dropdown-item">Messages<i class="dropdown-item-icon ti-comment-alt"></i></a>
             <a class="dropdown-item">Activity<i class="dropdown-item-icon ti-location-arrow"></i></a>
             <a class="dropdown-item">FAQ<i class="dropdown-item-icon ti-help-alt"></i></a>
-            <a class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
+            <a class="dropdown-item" href="{{ route('auth.logout') }}">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
           </div>
         </li>
       </ul>

@@ -8,8 +8,8 @@
             <div class="dot-indicator bg-success"></div>
           </div>
           <div class="text-wrapper">
-            <p class="profile-name">Allen Moreno</p>
-            <p class="designation">Premium user</p>
+            <p class="profile-name text-uppercase">{{ (Auth::check()) ? Auth::user()->name : '' }}</p>
+            <p class="designation text-uppercase">{{ (Auth::check() && Auth::user()->role == 1) ? "Admin" : "Prmeium user" }}</p>
           </div>
         </a>
       </li>
