@@ -23,6 +23,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GtnkpQzQ+nS4J+U6xZ2r0pF3t1C0tb2Z6k+fFQT8Z9np5vU7/sdXH67UfQvRGYQ6" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
   </head>
   <body>
     <div class="container-scroller">
@@ -107,6 +108,7 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script> --}}
     {{-- Boostrap 5.2 end --}}
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> 
 
     <script>
       $.ajaxSetup({
@@ -115,7 +117,7 @@
         }
       });
 
-      const Message = (message) => {
+      const Message = (message, status = true) => {
         Toastify({
           text: `${message}`,
           duration: 2000,
@@ -126,7 +128,7 @@
           position: "right", // `left`, `center` or `right`
           stopOnFocus: true, // Prevents dismissing of toast on hover
           style: {
-            background: "linear-gradient(to right, #00b09b, #96c93d)",
+            background: `${status ? "linear-gradient(to right, #00b09b, #96c93d)" : "red" }`,
           },
           onClick: function(){} // Callback after click
         }).showToast();

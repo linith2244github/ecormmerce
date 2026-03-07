@@ -5,6 +5,8 @@ use App\Http\Controllers\Dashboard\BrandController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ColorController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\ImageController;
+use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\DashboardMiddleware;
@@ -60,5 +62,18 @@ Route::group(['prefix' => 'admin'], function(){
         Route::post('/color/edit', [ColorController::class, 'edit'])->name('color.edit');
         Route::post('/color/update', [ColorController::class, 'update'])->name('color.update');
         Route::post('/color/destroy', [ColorController::class, 'destroy'])->name('color.destroy');
+
+        //Product Routers
+        Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+        Route::post('/product/list', [ProductController::class, 'list'])->name('product.list');
+        Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
+        Route::post('/product/data', [ProductController::class, 'data'])->name('product.data');
+        Route::post('/product/edit', [ProductController::class, 'edit'])->name('product.edit');
+        Route::post('/product/update', [ProductController::class, 'update'])->name('product.update');
+        Route::post('/product/destroy', [ProductController::class, 'destroy'])->name('product.destroy');
+
+        //Product Image Routers
+        Route::post('/product/upload', [ImageController::class, 'upload'])->name('product.upload');
+        Route::post('/product/cancel', [ImageController::class, 'cancel'])->name('product.cancel');
     });
 });
