@@ -113,7 +113,22 @@ class ProductController extends Controller
      */
     public function edit(Request $request)
     {
-        //
+        $product = Product::find($request->id);
+        $productImages = ProductImage::where('product_id', $request->id)->get();
+        $categories = Category::orderBy('id', 'desc')->get();
+        $brands = Brand::orderBy('id', 'desc')->get();
+        $colors = Color::orderBy('id', 'desc')->get();
+
+        return response([
+            'status' => 200,
+            'data' => [
+                'product' => $product,
+                'productImages' => $productImages,
+                'categories' => $categories,
+                'brands' => $brands,
+                'colors' => $colors
+            ]
+        ]);
     }
 
     /**

@@ -14,10 +14,10 @@ class Product extends Model
     }
 
     public function Categories(){
-        return $this->hasOne(Category::class,'id', 'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function Brands(){
-        return $this->hasOne(Brand::class, 'id', 'brand_id');
+        return $this->belongsTo(Brand::class, 'brand_id');
     }
 }

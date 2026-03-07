@@ -4,7 +4,7 @@
      <div class="row page-title-header">
         <div class="col-12">
           <div class="page-header">
-            <h4 class="page-title">Dashboard</h4>
+            <h4 class="page-title">Product</h4>
             <div class="quick-link-wrapper w-100 d-md-flex flex-md-wrap">
               <ul class="quick-links">
                 <li><a href="#">ICE Market data</a></li>
@@ -53,7 +53,7 @@
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody class="colors_list">
+                <tbody class="product_list">
                   <tr>
                     <td>P001</td>
                     <td><img src="https://via.placeholder.com/150" alt="image"></td>
@@ -100,7 +100,36 @@
         url: "{{ route('product.list') }}",
         dataType: "json",
         success: function (response) {
-          
+          if(response.status == 200){
+            let products = response.products;
+            let tr = ``;
+            $.each(products, function (key, value) { 
+              tr += `
+                <tr>
+                    <td>P00${value.id}</td>
+                    <td>
+                      <img src="{{ asset('uploads/product/${value.images[0].image}') }}" alt="image">
+                    </td>
+                    <td>${value.name}</td>
+                    <td>${value.categories.name}</td>
+                    <td>${value.brands.name}</td>
+                    <td>${value.price}</td>
+                    <td>${value.qty}</td>
+                    <td>
+                        <span class="p-2 badge  text-light ${value.qty > 0 ? 'badge-success' : 'badge-danger'}">${value.qty > 0 ? 'In Stock' : 'Out Stock'}</span>
+                    </td>
+                    <td>
+                      <span class="p-2 badge  text-light ${(value.status == 1) ? 'badge-success' : 'badge-danger'}">${(value.status == 1) ? 'Active' : 'Inactive'}</span>
+                    </td>
+                    <td>
+                      <a href="javascript:void(0)" onclick="ProductEdit(${value.id})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalUpdateProduct" id="addProductBtn">Edit</a>
+                      <a href="javascript:void(0)" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                  </tr>
+              `;
+            });
+            $(".product_list").html(tr);
+          }
         }
       });
     }
@@ -245,6 +274,18 @@
               $(".qty_add").removeClass('is-invalid').siblings('p').removeClass('text-danger').text('');
             }
           }
+        }
+      });
+    }
+
+    const ProductEdit = (id) => {
+      $.ajax({
+        type: "POST",
+        url: "{{ route('product.edit') }}",
+        data: {'id' : id},
+        dataType: "json",
+        success: function (response) {
+          
         }
       });
     }

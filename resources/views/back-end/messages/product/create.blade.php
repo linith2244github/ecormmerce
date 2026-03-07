@@ -68,13 +68,13 @@
                         </select> 
                     </div> 
  
-                    {{-- <div class="form-group"> 
+                    <div class="form-group"> 
                         <label for="">Releated Product</label> 
                         <select name="reteated" id="reteated" class=" form-control"> 
                             <option value="">Select Color</option> 
                             <option value="">red</option> 
                         </select> 
-                    </div>  --}}
+                    </div> 
  
                     <div class="form-group"> 
                         <label for="">Status</label> 
