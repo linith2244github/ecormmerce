@@ -38,7 +38,7 @@
                         <div class="form-group"> 
                             <label for="">Product Image</label> 
                             <input type="file" id="upload_image" class="image form-control" multiple name="image[]"> 
-                            <button type="button" onclick="UploadImage('.formCreateProduct')" class=" btn btn-primary upload_images">Uploads</button> 
+                            <button type="button" onclick="ProductUpload('.formCreateProduct')" class=" btn btn-primary upload_images">Uploads</button> 
                         </div>
                         
                         <div class="show-images row">
