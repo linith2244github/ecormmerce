@@ -9,9 +9,7 @@
             <form  class="formCreateProduct" method="POST" enctype="multipart/form-data"> 
                 @csrf
                 <div class="row"> 
- 
                     <div class="col-lg-8"> 
- 
                         <div class="form-group"> 
                             <label for="title">Product Title</label> 
                             <input type="text" class="title_add form-control" name="title"> 

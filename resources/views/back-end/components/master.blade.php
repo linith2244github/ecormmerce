@@ -70,9 +70,9 @@
       <div class="modal-body p-5">
         <div class="from-group">
           <div class="input-group">
-            <input type="text" autofocus id="searchInput" class="form-control" placeholder="Search Here" aria-label="Search">
+            <input type="text" name="search" id="searchInput" class="form-control" placeholder="Search items here....">
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" id="searchBtn">
+              <button class="btn btn-outline-secondary ml-2" type="button" id="searchBtn">
                 <i class="bi bi-search">search</i>
               </button>
             </div>

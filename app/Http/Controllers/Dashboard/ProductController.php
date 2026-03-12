@@ -24,10 +24,55 @@ class ProductController extends Controller
     }
 
     public function list(Request $request){
-        $products = Product::with(['Images','Categories','Brands'])->get();
+        //pagination form
+        $limit = 10;
+        $page  = $request->page;  //2
+        $offset = ($page - 1) * $limit;
+
+        if($request->search != null){
+            $products = Product::with(['Images','Categories','Brands'])
+                        ->where('name','like',"%$request->search%")
+                        ->orWhereHas('Categories', function ($field) use ($request) {
+                            $field->where('name','like',"%$request->search%");
+                        })
+                        ->orWhereHas('Brands', function ($field) use ($request) {
+                            $field->where('name','like',"%$request->search%");
+                        })
+                        ->limit($limit)
+                        ->offset($offset)
+                        ->get();
+
+            //total record
+            $totalRecord = Product::with(['Images','Categories','Brands'])
+                        ->where('name','like',"%$request->search%")
+                        ->orWhereHas('Categories', function ($field) use ($request) {
+                            $field->where('name','like',"%$request->search%");
+                        })
+                        ->orWhereHas('Brands', function ($field) use ($request) {
+                            $field->where('name','like',"%$request->search%");
+                        })
+                        ->count();
+        }else{
+
+            $products = Product::orderBy('id','DESC')
+            ->with(['Images','Categories','Brands'])
+            ->limit($limit)
+            ->offset($offset)
+            ->get();   
+
+            //total record
+            $totalRecord = Product::count();
+        }
+
+        $totalPage = ceil($totalRecord/$limit);
         return response([
             'status' => 200,
-            'products' => $products
+            'page' => [
+                'totalRecord' => $totalRecord,
+                'totalPage' => $totalPage,
+                'currentPage' => $page
+            ],
+            'products' => $products,
         ]);
     }
 
@@ -35,7 +80,6 @@ class ProductController extends Controller
         $categories = Category::orderBy("id","DESC")->get();
         $brands = Brand::orderBy("id","DESC")->get();
         $color  = Color::orderBy("id","DESC")->get();
-
         return response([
             'status' => 200,
             'data' => [
@@ -57,7 +101,6 @@ class ProductController extends Controller
             'qty'  => 'required|numeric',
 
         ]);
-
         if($validator->passes()){
             //save Product to table in db
             $product = new Product();
@@ -71,9 +114,7 @@ class ProductController extends Controller
             //[4,3,2] => "4,3,2"
             $product->user_id = Auth::user()->id;
             $product->status = $request->status;
-
             $product->save();
-
             //Save to images table in db
             if($request->image_uploads != null){
                 $images = $request->image_uploads;
@@ -81,28 +122,20 @@ class ProductController extends Controller
                     $image = new ProductImage();
                     $image->image  = $img;
                     $image->product_id = $product->id;
-
                     //move image to product directory 
                     if(File::exists(public_path("uploads/temp/$img"))){
-
                          //copy
                          File::copy(public_path("uploads/temp/$img"),public_path("uploads/product/$img"));
-
                          //delete from temp directory
                          File::delete(public_path("uploads/temp/$img"));
- 
                     }
-
                     $image->save();
                 }
             }
-
-            
             return response([
                 'status' => 200,
                 'message' => "Product created successfully",
             ]);
-
         }else{
             return response()->json([
                 'status' => 500,
@@ -122,7 +155,6 @@ class ProductController extends Controller
         $brands  = Brand::orderBy('id','DESC')->get();
         $categories = Category::orderBy('id','DESC')->get();
         $colors  = Color::orderBy('id','DESC')->get();
-
         return response([
             'status' => 200,
             'data'  => [
@@ -134,7 +166,6 @@ class ProductController extends Controller
             ]
         ]);
     }
-
     /**
      * Update the specified resource in storage.
      */
@@ -146,7 +177,6 @@ class ProductController extends Controller
             'qty'  => 'required|numeric',
 
         ]);
-
         if($validator->passes()){
             //save Product to table in db
             $product = Product::find($request->product_id);
@@ -160,9 +190,7 @@ class ProductController extends Controller
             //[4,3,2] => "4,3,2"
             $product->user_id = Auth::user()->id;
             $product->status = $request->status;
-
             $product->save();
-
             //Save to images table in db
             if($request->image_uploads != null){
                 $images = $request->image_uploads;
@@ -170,23 +198,16 @@ class ProductController extends Controller
                     $image = new ProductImage();
                     $image->image  = $img;
                     $image->product_id = $product->id;
-
                     //move image to product directory 
                     if(File::exists(public_path("uploads/temp/$img"))){
-
                          //copy
                          File::copy(public_path("uploads/temp/$img"),public_path("uploads/product/$img"));
-
                          //delete from temp directory
                          File::delete(public_path("uploads/temp/$img"));
- 
                     }
-
                     $image->save();
                 }
             }
-
-            
             return response([
                 'status' => 200,
                 'message' => "Product Updated successfully",
@@ -200,23 +221,17 @@ class ProductController extends Controller
             ]);
         }
     }
-
-
     public function destroy(Request $request)
     {
-        
         #Delete image from folder
         $productImages = ProductImage::where('product_id',$request->id)->get();
-
         if($productImages != null){
             foreach($productImages as $image){
                 File::delete(public_path("uploads/product/$image->image"));
             }
         }
-
         #Delete product from db
         Product::find($request->id)->delete();
-
         return response([
             'status' => 200,
             'message' => 'Product deleted successful'

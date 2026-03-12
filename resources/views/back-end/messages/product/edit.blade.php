@@ -6,23 +6,21 @@
         </div> 
         <div class="modal-body"> 
             <form  class="formUpdateProduct" method="POST" enctype="multipart/form-data"> 
- 
                 <div class="row"> 
- 
                     <div class="col-lg-8"> 
- 
+                        
                         <div class="form-group"> 
                             <input type="hidden" id="product_id" name="product_id" value="">
                             <label for="title">Product Name</label> 
                             <input type="text" class="title_edit form-control" name="title">
                             <p></p> 
-                        </div> 
- 
+                        </div>
+
                         <div class="form-group"> 
                             <label for="name">Description</label> 
                             <textarea name="desc" id="desc" class="desc_edit form-control" rows="10"></textarea> 
                         </div> 
- 
+
                         <div class="form-group"> 
                             <label for="price">Product Price</label> 
                             <input type="text" class="price_edit form-control" name="price"> 
@@ -94,7 +92,7 @@
             </form> 
         </div> 
         <div class="modal-footer"> 
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> 
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
           <button type="button" onclick="ProductUpdate('.formUpdateProduct')" class="btn btn-primary">Upadate</button> 
         </div> 
       </div> 

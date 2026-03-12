@@ -212,9 +212,9 @@
               $('.modal-backdrop').remove();
               $('body').removeClass('modal-open');
               $(form).trigger("reset");
-              BrandList();
               $(".name_edit").removeClass('is-invalid').siblings('p').removeClass('text-danger').text('');
               Message(response.message);
+              BrandList();
             }else{
               let error = response.errors;
               if(error.name){ 

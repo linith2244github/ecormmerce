@@ -767,3 +767,21 @@
   bottom: 0;
   right: 0;
 }
+
+.show-profile{
+  position: relative;
+}
+.show-profile > img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+.show-profile > .choose {
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+}

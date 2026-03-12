@@ -109,75 +109,97 @@
                               <td>$${value.price}</td>
                               <td>${value.qty}</td>
                               <td>
-                              <span class='text-light p-1 badge ${value.qty > 1 ? 'bg-success' : 'bg-danger'}'>
+                              <span class='text-light p-2 badge ${value.qty > 1 ? 'bg-success' : 'bg-danger'}'>
                                   ${value.qty > 1? 'In Stock' : 'Out Stock' }
                               </span> 
                           </td>
                               <td>
-                                  <span class="text-light badge ${(value.status == 1)  ? 'bg-success' : 'bg-danger' }  p-1">
+                                  <span class="text-light badge ${(value.status == 1)  ? 'bg-success' : 'bg-danger' }  p-2">
                                   ${(value.status == 1) ? 'Active' : 'Inactive' }
                                   </span>
                               </td>
                               <td>
-                                  <button onclick="edit(${value.id})" type="button" class=" btn btn-info  btn-sm" data-toggle="modal" data-target="#modalUpdateProduct">Edit</button>
+                                  <button id="btnUpdateProduct" onclick="edit(${value.id})" type="button" class=" btn btn-info  btn-sm" data-toggle="modal" data-target="#modalUpdateProduct">Edit</button>
                                   <button onclick="ProductDelete(${value.id})" type="button" class="btn btn-danger btn-sm">Delete</button>
                               </td>
                           </tr>
                       `;
-                    })
+                    });
 
                     $(".products_list").html(tr);
 
                     //pagination
-                    let page = ``;
+                    // pageination
                     let totalPage = response.page.totalPage;
                     let currentPage = response.page.currentPage;
+                    let page = ``;
                     page = `
-                      <nav aria-label="Page navigation example">
-                          <ul class="pagination">
-                              <li onclick="PreviousPage(${currentPage})" class="page-item ${(currentPage == 1) ? 'd-none' : 'd-block' }">
-                              <a class="page-link" href="javascript:void()" aria-label="Previous">
-                                  <span aria-hidden="true">&laquo;</span>
-                              </a>
-                              </li>`;
-
-                    for (let i = 1; i <= totalPage; i++) {
-                        page += `
-                                      <li onclick="ProductPage(${i})" class="shadow-none page-item ${(i == currentPage) ? 'active' : '' }">
-                                          <a class="page-link" href="javascript:void()">${i}</a>
-                                      </li>`;
-                    }
-
-                    page += `<li onclick="NextPage(${currentPage})" class="page-item ${( currentPage == totalPage ) ? 'd-none' : 'd-block'}">
-                              <a class="page-link" href="javascript:void()" aria-label="Next">
-                                  <span aria-hidden="true">&raquo;</span>
-                              </a>
-                              </li>
-                          </ul>
-                      </nav>
-                  `;
-
-                    if (totalPage > 1) {
+                        <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item ${(currentPage == 1) ? 'disabled' : ''}" ${currentPage == 1 ? '' : `onclick="PreviousPage(${currentPage})"`} >
+                            <a class="page-link" href="javascript:void(0)" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                            </li>`;
+                            for(let i = 1; i <= totalPage; i++){
+                            page += `
+                                <li onclick="ProductPage(${i})" class="page-item ${(i == currentPage) ? 'active' : ''}">
+                                <a class="page-link" href="javascript:void(0)">${i}</a>
+                                </li>`;
+                            }
+                            page += `
+                            <li class="page-item ${(currentPage == totalPage) ? 'disabled' : ''}" ${currentPage == totalPage ? '' : `onclick="NextPage(${currentPage})"`}>
+                            <a class="page-link" href="javascript:void(0)" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                            </li>
+                        </ul>
+                        </nav>
+                    `;
+                    if(totalPage > 1){
                         $(".show-page").html(page);
-                    } else {
-                        $('.show-page').html('');
                     }
-
-
-                } else {
-                    $(".products_list").html('<tr><td colspan="5" class="text-center text-danger">No Product found.</td></tr>');
-                }
+                }else{
+                    $(".products_list").html('<tr><td colspan="5" class="text-center">No products found</td></tr>');
+                }   
             }
             , error: function() {
                 $(".products_list").html('<tr><td colspan="5" class="text-center text-danger">Failed to load data.</td></tr>');
             }
         });
-
-
-
     }
 
     ProductList();
+
+    const ProductRefresh = () => {
+        ProductList();
+        $("#searchInput").val(" ");
+    }
+     //Color Page
+        const ProductPage = (page) => {
+            ProductList(page);
+        }
+
+
+        //Next Page
+        const NextPage = (page) => {
+            ProductList(page + 1);
+        }
+
+
+        //Previous Page
+        const PreviousPage = (page) => {
+            ProductList(page - 1);
+        }
+
+     $(document).on("click", "#searchBtn", function(){
+        let search = $("#searchInput").val();
+        $("#modalSearch").modal('hide');
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
+        ProductList(1, search);
+        $("#searchInput").val('');
+      });
 
     const handleClickOnButtonNewProduct = () => {
         $.ajax({
@@ -192,8 +214,8 @@
                     let cate_option = ``;
                     $.each(categories, function(key, value) {
                         cate_option += `
-              <option value="${value.id}">${value.name}</option>
-          `;
+                        <option value="${value.id}">${value.name}</option>
+                    `;
                     });
 
                     $('.category_add').html(cate_option);
@@ -204,8 +226,8 @@
                     let brand_option = ``;
                     $.each(brands, function(key, value) {
                         brand_option += `
-              <option value="${value.id}">${value.name}</option>
-          `;
+                        <option value="${value.id}">${value.name}</option>
+                    `;
                     });
                     $('.brand_add').html(brand_option);
                     //Brands end
@@ -215,16 +237,11 @@
                     let color_option = ``;
                     $.each(colors, function(key, value) {
                         color_option += `
-              <option value="${value.id}">${value.name}</option>
-          `;
+                        <option value="${value.id}">${value.name}</option>
+                    `;
                     });
 
                     $('.color_add').html(color_option);
-
-
-
-
-
                     //Colors end
                 }
             }
@@ -243,7 +260,6 @@
             , success: function(response) {
                 if (response.status == 200) {
                     Message(response.message);
-
                     let images = response.images;
                     let img = ``;
                     $.each(images, function(key, value) {
@@ -260,7 +276,6 @@
                         } else if (form === '.formCreateProduct') {
                             $('.show-images').append(img);
                         }
-
                     });
 
                     $('.image').val("");
@@ -271,7 +286,6 @@
     }
 
     const ProductCancelImage = (e, image) => {
-
         if (confirm("Do you want to cancel ?")) {
             $.ajax({
                 type: "POST"
@@ -285,12 +299,10 @@
 
                         Message(response.message);
                         $(e).parent().remove();
-
                     }
                 }
             });
         }
-
     }
 
     const ProductStore = (form) => {
@@ -373,10 +385,10 @@
                     let cate_option = ``;
                     $.each(categories, function(key, value) {
                         cate_option += `
-          <option value="${value.id}" ${(value.id == response.data.product.category_id) ? 'selected' : ''}>
-            ${value.name}
-          </option>
-          `;
+                            <option value="${value.id}" ${(value.id == response.data.product.category_id) ? 'selected' : ''}>
+                            ${value.name}
+                            </option>
+                        `;
                     });
 
                     //inner to category edit 
@@ -398,7 +410,6 @@
                 $('.brand_edit').html(brand_option);
                 //brands end
 
-
                 //colors start
                 let colors = response.data.colors;
                 let color_ids = response.data.product.color; // 4,2,1
@@ -418,7 +429,6 @@
                 $('.color_edit').html(color_option);
                 //colors end
 
-
                 //Images start
                 let images = response.data.productImages;
                 let img = ``;
@@ -431,14 +441,12 @@
                         </div>`
                     $('.show-images-edit').append(img)
                 });
-
             }
         });
     }
 
     const ProductUpdate = (form) => {
         let payloads = new FormData($(form)[0]);
-
         $.ajax({
             type: "POST"
             , url: "{{ route('product.update') }}"
@@ -448,13 +456,13 @@
             , processData: false
             , success: function(response) {
                 if (response.status == 200) {
-                    $(form).trigger("reset");
-                    $('.show-images-edit').html(" ");
                     $("#modalUpdateProduct").modal('hide');
                     $('.modal-backdrop').remove();
                     $('body').removeClass('modal-open');
+                    $(form).trigger("reset");
                     $('input').removeClass("is-invalid").siblings("p").removeClass('text-danger').text(
                         " ")
+                        $('.show-images-edit').html(" ");
                     Message(response.message);
                     ProductList();
                 } else {
@@ -502,10 +510,8 @@
                 , success: function(response) {
                     if (response.status == 200) {
                         Message(response.message);
-
                         //Rendering product list
                         ProductList();
-
                     }
                 }
             });
