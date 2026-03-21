@@ -1,15 +1,15 @@
 @extends('back-end.components.master')
 @section('contens')
   <div class="row">
-    {{-- <div class="col-md-4 grid-margin">
+    <div class="col-md-4 grid-margin">
       <div class="card">
         <div class="card-body">
          
         </div>
       </div>
-    </div> --}}
-    {{-- <div class="col-md-8 grid-margin"> --}}
-    <div class="col-md-12 grid-margin">
+    </div>
+    <div class="col-md-8 grid-margin">
+    {{-- <div class="col-md-12 grid-margin"> --}}
         <div class="card">
           <div class="card-body">
                 <nav>
@@ -36,11 +36,11 @@
                             <div class="form-group">
                                 <label for="profileImage">Profile Image</label>
                                 <div class="show-profile">
-                                    <input type="text" name="profile" id="profileImage">
+                                    <input type="hidden" name="image_name" id="image_name">
                                     {{-- @if ($user->image != null)
                                       <img src="{{ asset('uploads/image/'.$user->image) }}" alt="">
                                     @else --}}
-                                      <img class="img-xs rounded-circle" src="{{ asset('back-end/assets/images/faces/face8.jpg') }}" alt="Profile image"> </a>
+                                      <img class="img-xs rounded-circle" src="{{ asset('uploads/user/'.$user->image) }}" alt="Profile image"> </a>
                                     {{-- @endif --}}
                                     
                                     <label for="image" class=" btn choose"><i class="bi bi-pen text-primary"></i></label>
@@ -143,6 +143,7 @@
                 if(response.status == 200){
                     $('.show-profile img').attr('src',`{{ asset('uploads/temp/${response.image}') }}`);
                     $('#image').val("");
+                    $("#image_name").val(response.image);
                     Message(response.message);
                 }else{
                     Message(response.message, false);

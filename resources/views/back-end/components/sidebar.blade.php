@@ -4,7 +4,12 @@
       <li class="nav-item nav-profile">
         <a href="#" class="nav-link">
           <div class="profile-image">
-            <img class="img-xs rounded-circle" src="{{ asset('back-end/assets/images/faces/face8.jpg') }}" alt="profile image">
+            @if(Auth::user()->image != null)
+                <img class="img-xs rounded-circle" src="{{ asset('uploads/user/' . Auth::user()->image) }}" alt="profile image">
+              @else
+                <img class="img-xs rounded-circle" src="{{ asset('back-end/assets/images/faces/face8.jpg') }}" alt="profile image">
+              @endif
+            
             <div class="dot-indicator bg-success"></div>
           </div>
           <div class="text-wrapper">

@@ -3,17 +3,19 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
-// use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
     public function index(){
-        return view('back-end.profile');
+        $user = User::find(Auth::user()->id);
+        return view('back-end.profile', compact('user'));
     }
 
     public function changePassword(Request $request){
@@ -54,7 +56,42 @@ class ProfileController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone = $request->phone;
+
+            if(!empty($request->image_name)){
+                $imageName = $request->image_name;
+                $image_path = public_path('uploads/temp/' . $imageName);
+                $user_path = public_path('uploads/user/' . $imageName);
+
+                if(File::exists($image_path)){
+                    File::copy($image_path, $user_path);
+                    File::delete($image_path);
+                }
+
+                $user->image = $imageName;
+            }
+
+            $findContact = Contact::where('user_id', Auth::user()->id)->first();
+            if($findContact != null){
+                //Update
+                $allContact = Contact::where('user_id', Auth::user()->id)->get();
+                $links = $request->link;
+                for($i = 0; $i < count($allContact); $i++){
+                    $allContact[$i]->contact_url = $links[$i];
+                    $allContact[$i]->save();
+                }
+            }else{
+                //Insert
+                $links = $request->link;
+                for($i = 0; $i < count($links); $i++){
+                    $contact = new Contact();
+                    $contact->user_id = Auth::user()->id;
+                    $contact->contact_url = $links[$i];
+                    $contact->save();
+                }
+            }
+
             $user->save();
+
             return redirect()->back()->with('success', 'Profile updated successfully');
         }else{
             return redirect()->back()->withInput()->withErrors($validator->errors());
@@ -66,12 +103,9 @@ class ProfileController extends Controller
 
         if($request->hasFile('image')){     
            $image = $request->file('image');
-           $name = rand(0, 999999999) . '.' . $image->getClientOriginalExtension();
+           $name = time() . '.' . $image->getClientOriginalExtension();
            $image->move(public_path('uploads/temp'), $name);
 
-           $user = User::find(Auth::user()->id);
-           $user->image = $name;
-           $user->save();
            return response()->json([
                 'status' => 200,
                 'message' => 'Image uploaded successfully',

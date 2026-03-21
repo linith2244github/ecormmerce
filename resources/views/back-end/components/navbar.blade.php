@@ -132,10 +132,18 @@
         </li>
         <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
           <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+            @if(Auth::user()->image != null)
+              <img class="img-xs rounded-circle" src="{{ asset('uploads/user/'.Auth::user()->image) }}" alt="Profile image"> </a>
+            @else
             <img class="img-xs rounded-circle" src="{{ asset('back-end/assets/images/faces/face8.jpg') }}" alt="Profile image"> </a>
+            @endif
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
             <div class="dropdown-header text-center">
-              <img class="img-md rounded-circle" src="{{ asset('back-end/assets/images/faces/face8.jpg') }}" alt="Profile image">
+              @if(Auth::user()->image != null)
+                <img class="img-xs rounded-circle" src="{{ asset('uploads/user/'.Auth::user()->image) }}" alt="Profile image"> </a>
+              @else
+                <img class="img-xs rounded-circle" src="{{ asset('back-end/assets/images/faces/face8.jpg') }}" alt="Profile image"> </a>
+              @endif
               <p class="mb-1 mt-3 font-weight-semibold text-uppercase">{{ (Auth::check()) ? Auth::user()->name : "Linith" }}</p>
               <p class="font-weight-light text-muted mb-0">{{ (Auth::check()) ? Auth::user()->email : "linith@gmail" }}</p>
             </div>
