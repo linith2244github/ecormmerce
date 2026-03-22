@@ -68,17 +68,17 @@
 
                             <div class="form-group">
                                 <label for="address">Address</label>
-                                <input type="text" class="form-control" name="address" id="address">
+                                <input type="text" class="form-control" value="" name="address" id="address">
                             </div>
 
                             <div class="form-group">
                                 <label for="facebook">Facebook</label>
-                                <input type="text" class="form-control" id="facebook" name="link[]"  placeholder="link to you facebook profile">
+                                <input type="text" class="form-control" id="facebook" value="{{ $contacts != null ? $contacts[0]->contact_url : '' }}" name="link[]"  placeholder="link to you facebook profile">
                             </div>
 
                             <div class="form-group">
                                 <label for="telegram">Telegram</label>
-                                <input type="text" class="form-control" id="telegram"  name="link[]" placeholder="link to you telegram account">
+                                <input type="text" class="form-control" id="telegram" value="{{ $contacts != null ? $contacts[1]->contact_url : '' }}" name="link[]" placeholder="link to you telegram account">
                             </div>
                             <button type="submit" class=" btn btn-primary">Update</button>
                         </form>           

@@ -15,7 +15,11 @@ class ProfileController extends Controller
 {
     public function index(){
         $user = User::find(Auth::user()->id);
-        return view('back-end.profile', compact('user'));
+        $contacts = Contact::where('user_id', Auth::user()->id)->get();
+        return view('back-end.profile', [
+            'user' => $user,
+            'contacts' => $contacts
+        ]);
     }
 
     public function changePassword(Request $request){
@@ -69,7 +73,8 @@ class ProfileController extends Controller
 
                 $user->image = $imageName;
             }
-
+            $user->save();
+            
             $findContact = Contact::where('user_id', Auth::user()->id)->first();
             if($findContact != null){
                 //Update
@@ -82,6 +87,14 @@ class ProfileController extends Controller
             }else{
                 //Insert
                 $links = $request->link;
+                /*
+                "link" => array:2 [
+                    0 => "https://www.facebook.com/",
+                    1 => "https://www.twitter.com/",
+                    2 => "https://www.linkedin.com/",
+                    .....
+                ]
+                 */
                 for($i = 0; $i < count($links); $i++){
                     $contact = new Contact();
                     $contact->user_id = Auth::user()->id;
@@ -89,9 +102,6 @@ class ProfileController extends Controller
                     $contact->save();
                 }
             }
-
-            $user->save();
-
             return redirect()->back()->with('success', 'Profile updated successfully');
         }else{
             return redirect()->back()->withInput()->withErrors($validator->errors());
