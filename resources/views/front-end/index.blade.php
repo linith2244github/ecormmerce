@@ -111,7 +111,11 @@
                                                 <a href="#!" ><i class="tf-ion-ios-heart"></i></a>
                                             </li>
                                             <li>
-                                                <a href="#!"><i class="tf-ion-android-cart"></i></a>
+                                                @if (Auth::check())
+                                                  <a href="{{ route('cart.add',$product->id) }}"><i class="tf-ion-android-cart"></i></a>
+                                                @else
+                                                  <a href="{{ route('customer.login') }}"><i class="tf-ion-android-cart"></i></a>
+                                                @endif
                                             </li>
                                         </ul>
                                     </div>

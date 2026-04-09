@@ -25,25 +25,28 @@
           <form class="text-left clearfix" action="{{ route('reset.password.process') }}" method="POST" onsubmit="showLoading(this)">
             @csrf
             <div class="form-group">
-                <input type="hidden" name="token" value="{{ $tokenData->token }}">
-                <input type="hidden" name="code" value="{{ $tokenData->code }}">
-              <input type="password" class="form-control" name="password" placeholder="New Password"  value="{{ old('password') }}">
+              <input type="hidden" value="{{ $tokenData->token }}" name="token">
+              <input type="hidden" value="{{ $tokenData->code }}" name="code">
+              <input type="password" class="form-control" name="password" placeholder="New Password" value="{{ old('password') }}">
               @error('password')
                 <small class="text-danger">{{ $message }}</small>
               @enderror
             </div>
             <div class="form-group">
-              <input type="password" class="form-control" name="confirm_password" placeholder="Confirm New Password" value="{{ old('confirm_password') }}">
+              <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password"  value="{{ old('confirm_password') }}">
               @error('confirm_password')
                 <small class="text-danger">{{ $message }}</small>
               @enderror
             </div>
+
+           
             <div class="text-center">
               <button type="submit" class="btn btn-main text-center" id="submitBtn">
-                Reset Password
+                  Reset Password
               </button>
             </div>
           </form>
+          
         </div>
       </div>
     </div>

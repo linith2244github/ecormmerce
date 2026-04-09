@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Front\CartController;
+use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\CustomerAuthController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\SingleProductController;
@@ -28,4 +30,18 @@ Route::middleware('guest.customer')->group(function(){
 
     Route::get('/reset/{code}/{token}', [CustomerAuthController::class, 'resetPassword'])->name('reset.password.show');
     Route::post('/reset/process', [CustomerAuthController::class, 'resetPasswordProcess'])->name('reset.password.process');
+
+});
+
+Route::middleware('auth.customer')->group(function(){
+    Route::name('cart.')->group(function(){
+        Route::get('/cart/view', [CartController::class, 'index'])->name('list');
+        Route::get('/cart/add/{id}', [CartController::class, 'add'])->name('add');
+        Route::get('/cart/remove/{id}',[CartController::class,'remove'])->name('remove');
+        Route::post('cart/update',[CartController::class,'update'])->name('update');
+    });
+
+    Route::name('checkout.')->group(function(){
+        Route::get('/checkout', [CheckoutController::class, 'index'])->name('index');
+    });
 });

@@ -2,6 +2,7 @@
 
   <!-- Basic Page Needs
   ================================================== -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta charset="utf-8">
   <title>Aviato | E-commerce template</title>
 
@@ -32,5 +33,9 @@
   
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="{{ asset('front-end/assets/css/style.css') }}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Toastify messages -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
 </head>

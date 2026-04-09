@@ -97,7 +97,7 @@
 					<li class="commonSelect">
 						<select class="form-control">
 							<option>EN</option>
-							<option>DE</option>
+							<option>KH</option>
 							<option>FR</option>
 							<option>ES</option>
 						</select>

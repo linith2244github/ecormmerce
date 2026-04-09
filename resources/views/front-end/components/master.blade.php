@@ -46,6 +46,36 @@
 
     <!-- Main Js File -->
     <script src="{{ asset('front-end/assets/js/script.js') }}"></script>
+    
+    <!-- Toastify messages -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <script>
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+
+      const Message = (message,status=true) => {
+      Toastify({
+          text: `${message}`,
+          duration: 2000,
+          destination: "https://github.com/apvarun/toastify-js",
+          newWindow: true,
+          close: true,
+          gravity: "top", // `top` or `bottom`
+          position: "right", // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            background: `${ 
+                  status ? 'linear-gradient(to right, #00b09b, #96c93d)' :  'red'
+            }`,
+          },
+          onClick: function(){} // Callback after click
+      }).showToast();
+      }
+  </script>
 
     @yield('script')
     

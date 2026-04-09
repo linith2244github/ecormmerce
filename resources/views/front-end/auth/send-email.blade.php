@@ -17,28 +17,33 @@
                    {{ Session::get('success') }}
                 </div>
             @elseif(Session::has('error'))
-             <div class="alert alert-danger">
-                {{ Session::get('error') }}
-             </div>
+                <div class="alert alert-danger">
+                    {{ Session::get('error') }}
+                </div>
             @endif
             
           </div>
           <h2 class="text-center">Email Verify</h2>
           
           <form class="text-left clearfix" action="{{ route('send.email.process') }}" method="POST" onsubmit="showLoading(this)">
+
+
             @csrf
-            <div class="form-group mb-3">
+            <div class="form-group mb-5">
               <input type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}">
               @error('email')
                 <small class="text-danger">{{ $message }}</small>
               @enderror
             </div>
+           
+
             <div class="text-center">
               <button type="submit" class="btn btn-main text-center" id="submitBtn">
-                Send
+                 Send
               </button>
             </div>
           </form>
+         
         </div>
       </div>
     </div>

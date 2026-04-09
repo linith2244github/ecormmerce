@@ -39,12 +39,10 @@
                 <small class="text-danger">{{ $message }}</small>
               @enderror
             </div>
-
             <div class="form-group">
               <input type="checkbox" name="remember_me" checked>
               <span>Remember me</span>
             </div>
-
             <div class="text-center">
               <button type="submit" class="btn btn-main text-center" id="submitBtn">
                 Login
