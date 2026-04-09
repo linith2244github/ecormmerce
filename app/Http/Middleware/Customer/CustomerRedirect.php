@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\Customer;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class DashboardMiddleware
+class CustomerRedirect
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,9 @@ class DashboardMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role == 1){
-            return $next($request);
-        }else{
-            return redirect()->back()->with('error', 'You do not have permission!');
-        }
+        // if(Auth::check() && Auth::user()->role == 2) {
+        //     return redirect()->route('dashboard.index');
+        // }
+        return $next($request);
     }
 }

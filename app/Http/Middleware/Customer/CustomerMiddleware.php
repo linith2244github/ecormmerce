@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\Customer;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthMiddleware
+class CustomerMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,10 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check()){
+        if(Auth::check() && Auth::user()->role == 2) {
             return $next($request);
-        }else{
-            return redirect()->route('auth.index');
         }
+
+        return redirect()->route('customer.login');
     }
 }

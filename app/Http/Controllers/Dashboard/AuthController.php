@@ -11,15 +11,7 @@ class AuthController extends Controller
 {
     public function login()
     {
-        if(Auth::check()){
-            if(Auth::user()->role == 1){
-                return redirect()->route('dashboard.index');
-            }else{
-                return redirect()->route('category.index');
-            }
-        }else{
-            return view('back-end.login');
-        }
+        return view('back-end.login');
     }
     
     public function authenticate(Request $request){
@@ -33,11 +25,11 @@ class AuthController extends Controller
             if(Auth::attempt($credentials)){
                 if(Auth::user()->role == 1){
                     return redirect()->route('dashboard.index')->with('success', 'Login  Successfully!');
-                }elseif(Auth::user()->role == 2){
-                    return redirect()->route('category.index')->with('success', 'Login  Successfully!');
+                }else{
+                    return redirect()->back()->with('error', 'Unauthorized Access!');
                 }
             }else{
-                return redirect()->back()->withInput()->with(['error' => 'Invalid Email or Password!']);
+                return redirect()->back()->with('error', 'Invalid Email or Password!');
             }
         }else{
             return redirect()->back()->withInput()->withErrors($validator->errors());
@@ -46,6 +38,8 @@ class AuthController extends Controller
 
     public function logout(){
         Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
         return redirect()->route('auth.index');
     }
 }

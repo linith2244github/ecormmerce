@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use App\Models\User;
+use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -16,9 +17,11 @@ class ProfileController extends Controller
     public function index(){
         $user = User::find(Auth::user()->id);
         $contacts = Contact::where('user_id', Auth::user()->id)->get();
+        $userAddress = UserAddress::where('user_id', Auth::user()->id)->first();
         return view('back-end.profile', [
             'user' => $user,
-            'contacts' => $contacts
+            'contacts' => $contacts,
+            'address' => $userAddress,
         ]);
     }
 
@@ -102,6 +105,23 @@ class ProfileController extends Controller
                     $contact->save();
                 }
             }
+
+            // Address Update or create start
+            $findAddress = UserAddress::where('user_id', Auth::user()->id)->first();
+            if($findAddress != null){
+                //Update
+                $findAddress->address = $request->address;
+                $findAddress->save();
+            }else{
+                //Insert
+                $address = new UserAddress();
+                $address->user_id = Auth::user()->id;
+                $address->address = $request->address;
+                $address->save();
+            }
+
+            // Address Update or crate end
+
             return redirect()->back()->with('success', 'Profile updated successfully');
         }else{
             return redirect()->back()->withInput()->withErrors($validator->errors());

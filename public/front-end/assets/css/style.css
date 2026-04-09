@@ -56,6 +56,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+img {
+  object-fit: cover;
+}
+
 p {
   font-family: "Poppins", sans-serif;
   color: #757575;
@@ -280,6 +284,9 @@ input[type=email]:focus, input[type=password]:focus, input[type=text]:focus, inp
 }
 .category-box:hover img {
   transform: scale(1.1);
+}
+.category-box-2 a img {
+  height: 730px;
 }
 .category-box img {
   transition: all 0.3s ease-in-out;
@@ -953,8 +960,19 @@ input[type=email]:focus, input[type=password]:focus, input[type=text]:focus, inp
 }
 .product-item .product-thumb img {
   width: 100%;
-  height: auto;
+  height: 400px;
+  object-fit: cover;
+  /* transition: 0.3s all; */
 }
+@media(min-width: 768px) and (max-width: 890px){
+  .product-item .product-thumb img {
+    width: 100%;
+    height: 690px;
+    object-fit: cover;
+    /* transition: 0.3s all; */
+  }
+}
+
 .product-item .product-thumb .bage {
   position: absolute;
   top: 12px;
